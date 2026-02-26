@@ -13,7 +13,7 @@ public class TimesheetServices(ITimeSheetRepository _timeSheetRepository) : ITim
     public async Task<TimesheetDto> AddTimesheetAsync(TimesheetDto timesheet)
     {
 
-        if (timesheet.StartTime < timesheet.EndTime)
+        if (timesheet.StartTime > timesheet.EndTime)
             throw new System.Exception("Task start time should be greater than  end time");
         else if(timesheet.EndTime == timesheet.StartTime)
             throw new System.Exception("Task start time and end time should not same date time");

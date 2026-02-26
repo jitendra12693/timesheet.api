@@ -7,11 +7,13 @@ namespace timesheet.data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
-                INSERT INTO Tasks Values('Sick Leave', 'Apply this task on sick leave.')
-                INSERT INTO Tasks Values('Scrum Ceremonies', 'Scrum meetings, standup, sprint plannig, grooming etc.')
-                INSERT INTO Tasks Values('Internal Meeting', 'Meetings Meetings.')
-                INSERT INTO Tasks Values('Development', 'Development tasks, features, change requets.')
-                INSERT INTO Tasks Values('Bug Fixes', 'You know what it means.')
+              INSERT INTO Tasks (Name, Description)
+VALUES 
+('Sick Leave', 'Apply this task on sick leave.'),
+('Scrum Ceremonies', 'Scrum meetings, standup, sprint planning, grooming etc.'),
+('Internal Meeting', 'Meetings Meetings.'),
+('Development', 'Development tasks, features, change requests.'),
+('Bug Fixes', 'You know what it means.')
                   GO  ");
 
         }

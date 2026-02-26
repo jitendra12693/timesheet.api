@@ -9,7 +9,7 @@ namespace timesheet.api.controllers
     [ApiController]
     public class TaskController(IBaseService _baseService) : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("getAllTasks")]
         public async Task<IActionResult> Get()
         {
             var result = await _baseService.GetAllTask();
@@ -18,7 +18,7 @@ namespace timesheet.api.controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("searchTask")]
         public async Task<IActionResult> Get(string searchTerm)
         {
             var result = await _baseService.GetFilteredTask(searchTerm);

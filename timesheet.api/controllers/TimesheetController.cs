@@ -30,7 +30,7 @@ namespace timesheet.api.controllers
         }
 
         // POST api/<TimesheetController>
-        [HttpPost]
+        [HttpPost("saveTimesheet")]
         public async Task<IActionResult> Post([FromBody]TimesheetDto timesheet)
         {
             var result = await timesheetService.AddTimesheetAsync(timesheet);
@@ -44,7 +44,7 @@ namespace timesheet.api.controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("getAllTimesheet")]
         public async Task<IActionResult> GetAll()
         {
             var result = await timesheetService.GetTimesheets();

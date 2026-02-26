@@ -11,17 +11,17 @@ namespace timesheet.data.Repository
     {
         public async Task<IEnumerable<Employee>> GetAllEmployee()
         {
-            return await _dbContext.Employees.Where(e => e.IsActive).ToListAsync();
+            return await _dbContext.Employees.ToListAsync();
         }
 
         public async Task<IEnumerable<TaskMaster>> GetAllTask()
         {
-            return await _dbContext.Tasks.Where(t=>t.IsActive).ToListAsync();
+            return await _dbContext.Tasks.ToListAsync();
         }
 
         public async Task<IEnumerable<TaskMaster>> GetFilteredTask(string searchTerm)//,int pageSize,int pageNum)
         {
-            var  query = _dbContext.Tasks.Where(x=>x.IsActive).AsQueryable();
+            var  query = _dbContext.Tasks.AsQueryable();
             if(!string.IsNullOrEmpty(searchTerm))
                 query = query.Where(t=>t.Name.Contains(searchTerm) || t.Description.Contains(searchTerm));
             return await query.ToListAsync();
