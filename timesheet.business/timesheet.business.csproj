@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\timesheet.data\timesheet.data.csproj" />
+    <ProjectReference Include="..\timesheet.model\timesheet.model.csproj" />
   </ItemGroup>
 
 </Project>

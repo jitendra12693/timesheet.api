@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace timesheet.model
 {
-    public class Task
+    [Table("Tasks")]
+    public class TaskMaster
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -18,5 +17,8 @@ namespace timesheet.model
 
         [StringLength(500)]
         public string Description { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+
     }
 }
