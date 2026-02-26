@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using timesheet.api.Middleware;
 using timesheet.business;
 using timesheet.data;
@@ -30,6 +33,32 @@ namespace timesheet.api
             });
             services.AddSwaggerGen();
             services.AddControllers();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer("Bearer", options =>
+                {
+                    var key = Encoding.UTF8.GetBytes(Configuration["Authentication:Key"]!);
+                    var issuer = Configuration["Authentication:Issuer"];
+                    var audience = Configuration["Authentication:Audience"];
+                    var expirationMinutes = int.Parse(Configuration["Authentication:DurationInMinutes"]!);
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = issuer,
+                        ValidAudience = audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        //ClockSkew = TimeSpan.Zero,
+                        RequireExpirationTime = true,
+                    };
+
+                    options.Authority = Configuration["Authentication:Authority"];
+                    options.Audience = Configuration["Authentication:Audience"];
+                });
 
             services.AddDbContext<TimesheetDb>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("TimesheetDbConnection")));

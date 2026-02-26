@@ -7,5 +7,7 @@ namespace timesheet.business.Interfaces
     public interface IEmployeeService
     {
         Task<IEnumerable<EmployeeDto>> GetAllEmployee();
+        Task<EmployeeDto> AddEmployeeAsync(EmployeeDto employeeDto);
+        Task<string> EmployeeLogin(string code, string password);
     }
 }
