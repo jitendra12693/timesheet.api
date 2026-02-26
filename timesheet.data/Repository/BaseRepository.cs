@@ -1,34 +1,61 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using timesheet.model;
 using timesheet.model.Interfaces;
 
 namespace timesheet.data.Repository
 {
-    public class BaseRepository(TimesheetDb _dbContext) : IBaseRepository
+
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        public async Task<IEnumerable<Employee>> GetAllEmployee()
+        protected readonly TimesheetDb _dbContext;
+        protected readonly DbSet<T> _dbSet;
+
+        public BaseRepository(TimesheetDb dbContext)
         {
-            return await _dbContext.Employees.ToListAsync();
+            _dbContext = dbContext;
+            _dbSet = _dbContext.Set<T>();
         }
 
-        public async Task<IEnumerable<TaskMaster>> GetAllTask()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbContext.Tasks.ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
-        public async Task<IEnumerable<TaskMaster>> GetFilteredTask(string searchTerm)//,int pageSize,int pageNum)
+        public async Task<T> GetByIdAsync(object id)
         {
-            var  query = _dbContext.Tasks.AsQueryable();
-            if(!string.IsNullOrEmpty(searchTerm))
-                query = query.Where(t=>t.Name.Contains(searchTerm) || t.Description.Contains(searchTerm));
-            return await query.ToListAsync();
+            return await _dbSet.FindAsync(id);
         }
-        public async Task<Employee> GetEmployeeByCode(string code)
+
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbContext.Employees.Where(e=>e.Code== code).FirstOrDefaultAsync();
+            return await _dbSet.Where(predicate).ToListAsync();
+        }
+
+        public async Task AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(object id)
+        {
+            var entity = await GetByIdAsync(id);
+
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

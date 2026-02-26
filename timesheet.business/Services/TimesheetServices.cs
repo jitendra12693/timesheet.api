@@ -8,7 +8,7 @@ using timesheet.model.Interfaces;
 
 namespace timesheet.business.Services;
 
-public class TimesheetServices(ITimeSheetRepository _timeSheetRepository) : ITimesheetService
+public class TimesheetServices(ITimeSheetRepository _timeSheetRepository, IBaseRepository<Timesheet> _baseRepository ) : ITimesheetService
 {
     public async Task<TimesheetDto> AddTimesheetAsync(TimesheetDto timesheet)
     {
@@ -51,6 +51,23 @@ public class TimesheetServices(ITimeSheetRepository _timeSheetRepository) : ITim
             EmployeeName = t?.Employee?.Name,
             TaskName = t?.Task?.Name,
         });
+    }
+
+    public async Task<TimesheetDto> GetTimesheetById(int id)
+    {
+        var result = await _baseRepository.GetByIdAsync(id);
+        return new TimesheetDto
+        {
+            EmployeeId = result.EmployeeId,
+            TaskId = result.TaskId,
+            Id = result.Id,
+            Remarks = result.Remarks,
+            StartTime = result.StartTime,
+            EndTime = result.EndTime,
+            EmpCode = result?.Employee?.Code,
+            EmployeeName = result?.Employee?.Name,
+            TaskName = result?.Task?.Name,
+        };
     }
 
     public async Task<IEnumerable<TimesheetDto>> GetTimesheets()

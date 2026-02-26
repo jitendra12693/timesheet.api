@@ -17,6 +17,7 @@ namespace timesheet.model
 
         [StringLength(500)]
         public string Description { get; set; }
-
+        public int IsActive { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

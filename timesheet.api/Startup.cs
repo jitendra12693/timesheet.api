@@ -28,7 +28,7 @@ namespace timesheet.api
                                       .AllowAnyMethod()
                                       .AllowAnyHeader());
             });
-
+            services.AddSwaggerGen();
             services.AddControllers();
 
             services.AddDbContext<TimesheetDb>(options =>
@@ -53,6 +53,8 @@ namespace timesheet.api
 
             app.UseEndpoints(endpoints =>
             {
+                app.UseSwagger();
+                app.UseSwaggerUI();
                 endpoints.MapControllers();
             });
         }

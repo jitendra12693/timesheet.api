@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.Threading.Tasks;
 using timesheet.business.Dtos;
 using timesheet.business.Interfaces;
@@ -12,35 +13,26 @@ namespace timesheet.api.controllers
     [ApiController]
     public class TimesheetController(ITimesheetService timesheetService) : ControllerBase
     {
-        // GET: api/<TimesheetController>
-        [HttpGet("getTimeSheetByEmpId/{id}")]
-        public async Task<IActionResult> GetTimeSheetByEmpId(int id)
-        {
-           var result= await timesheetService.GetTimesheetByEmployeeId(id);
-            if(result==null)
-                return NotFound();
-            return Ok(result);
-        }
-
-        // GET api/<TimesheetController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<TimesheetController>
         [HttpPost("saveTimesheet")]
         public async Task<IActionResult> Post([FromBody]TimesheetDto timesheet)
         {
-            var result = await timesheetService.AddTimesheetAsync(timesheet);
-            return CreatedAtAction(nameof(GetById),new {id=result.Id},result);
+            try
+            {
+                var result = await timesheetService.AddTimesheetAsync(timesheet);
+                return CreatedAtAction(nameof(getTimesheetById), new { id = result.Id }, result);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new {StatusCode=500,Message=ex.Message});
+            }
         }
 
-        
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("getTimesheetById/{id}")]
+        public async Task<IActionResult> getTimesheetById(int id)
         {
+            var result = await timesheetService.GetTimesheetById(id);
+            if (result is null)
+                return NotFound();
             return Ok();
         }
 

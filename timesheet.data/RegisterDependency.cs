@@ -8,7 +8,7 @@ namespace timesheet.data
     {
         public static IServiceCollection AddData(this IServiceCollection services)
         {
-            services.AddScoped<IBaseRepository, BaseRepository>();
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ITimeSheetRepository, TimesheetRepository>();
             return services;
         }

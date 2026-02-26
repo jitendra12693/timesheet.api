@@ -6,17 +6,17 @@ namespace timesheet.data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"
-                INSERT INTO Employees Values('68319', 'KAYLING')
-                INSERT INTO Employees Values('66928', 'BLAZE')
-                INSERT INTO Employees Values('67832', 'CLARE')
-                INSERT INTO Employees Values('69062', 'JONAS')
-                INSERT INTO Employees Values('63679', 'SCARLET')
-                INSERT INTO Employees Values('64989', 'FRANK')
-                INSERT INTO Employees Values('65271', 'SANDRINE')
-                INSERT INTO Employees Values('66564', 'ADELYN')
-                INSERT INTO Employees Values('68454', 'WADE')
-                INSERT INTO Employees Values('69000', 'MADDEN')
+            migrationBuilder.Sql(@"INSERT INTO Employees (Code, Name,IsActive,CreatedDate,Password)
+                 Employees Values('68319', 'KAYLING',1, GETUTCDATE(),NULL)
+                 Employees Values('66928', 'BLAZE',1, GETUTCDATE(),NULL)
+                 Employees Values('67832', 'CLARE',1, GETUTCDATE(),NULL)
+                 Employees Values('69062', 'JONAS',1, GETUTCDATE(),NULL)
+                 Employees Values('63679', 'SCARLET',1, GETUTCDATE(),NULL)
+                 Employees Values('64989', 'FRANK',1, GETUTCDATE(),NULL)
+                 Employees Values('65271', 'SANDRINE',1, GETUTCDATE(),NULL)
+                 Employees Values('66564', 'ADELYN',1, GETUTCDATE(),NULL)
+                 Employees Values('68454', 'WADE',1, GETUTCDATE(),NULL)
+                 Employees Values('69000', 'MADDEN',1, GETUTCDATE(),NULL)
                   GO  ");
 
         }

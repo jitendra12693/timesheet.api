@@ -8,7 +8,8 @@ namespace timesheet.business
     {
         public static IServiceCollection AddBusiness(this IServiceCollection services)
         {
-            services.AddScoped<IBaseService, BaseServices>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITimesheetService, TimesheetServices>();
             return services;
         }

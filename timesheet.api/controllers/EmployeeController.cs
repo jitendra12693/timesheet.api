@@ -6,22 +6,13 @@ namespace timesheet.api.controllers
 {
     [Route("api/v1/employee")]
     [ApiController]
-    public class EmployeeController(IBaseService _baseService) : ControllerBase
+    public class EmployeeController(IEmployeeService _employeeService) : ControllerBase
     {
         [HttpGet("getAllEmployee")]
-        public async Task<IActionResult> GetAll(string text)
+        public async Task<IActionResult> GetAll()
         {
-            var result = await _baseService.GetAllEmployee();
+            var result = await _employeeService.GetAllEmployee();
             if(result == null) 
-                return NotFound();
-            return Ok(result);
-        }
-
-        [HttpGet("getEmployeeByCode/{code}")]
-        public async Task<IActionResult> GetEmployeeByCode(string code)
-        {
-            var result = await _baseService.GetEmployeeByCode(code);
-            if (result == null)
                 return NotFound();
             return Ok(result);
         }

@@ -1,12 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace timesheet.model.Interfaces;
 
-public interface IBaseRepository
+public interface IBaseRepository<T> where T : class
 {
-    Task<IEnumerable<Employee>> GetAllEmployee();
-    Task<Employee> GetEmployeeByCode(string code);
-    Task<IEnumerable<TaskMaster>> GetAllTask();
-    Task<IEnumerable<TaskMaster>> GetFilteredTask(string searchTerm);
+    Task<IEnumerable<T>> GetAllAsync();
+
+    Task<T> GetByIdAsync(object id);
+
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+
+    Task AddAsync(T entity);
+
+    Task UpdateAsync(T entity);
+
+    Task DeleteAsync(object id);
 }
