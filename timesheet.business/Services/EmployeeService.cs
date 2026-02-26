@@ -26,7 +26,7 @@ namespace timesheet.business.Services
         public async Task<EmployeeDto> AddEmployeeAsync(EmployeeDto employeeDto)
         {
             var isExist = await _empRepo.FindAsync(e => e.Code == employeeDto.Code);
-            if (isExist is not null)
+            if (isExist is not null && isExist.Count()>0)
                 throw new Exception("This employee code already exists");
             var empEntity = new Employee
             {
