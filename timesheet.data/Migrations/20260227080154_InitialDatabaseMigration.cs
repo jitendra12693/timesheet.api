@@ -6,30 +6,43 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace timesheet.data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedTimeSheetAlterEmpAndTask : Migration
+    public partial class InitialDatabaseMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "CreatedAt",
-                table: "Tasks",
-                type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                });
 
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "Tasks",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Password",
-                table: "Employees",
-                type: "nvarchar(max)",
-                nullable: true);
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    IsActive = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Timesheets",
@@ -69,6 +82,8 @@ namespace timesheet.data.Migrations
                 name: "IX_Timesheets_TaskId",
                 table: "Timesheets",
                 column: "TaskId");
+
+
         }
 
         /// <inheritdoc />
@@ -77,17 +92,11 @@ namespace timesheet.data.Migrations
             migrationBuilder.DropTable(
                 name: "Timesheets");
 
-            migrationBuilder.DropColumn(
-                name: "CreatedAt",
-                table: "Tasks");
+            migrationBuilder.DropTable(
+                name: "Employees");
 
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "Tasks");
-
-            migrationBuilder.DropColumn(
-                name: "Password",
-                table: "Employees");
+            migrationBuilder.DropTable(
+                name: "Tasks");
         }
     }
 }

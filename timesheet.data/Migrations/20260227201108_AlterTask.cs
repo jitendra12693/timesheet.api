@@ -10,20 +10,25 @@ namespace timesheet.data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
+            migrationBuilder.AlterColumn<bool>(
                 name: "IsActive",
-                table: "Employees",
+                table: "Tasks",
                 type: "bit",
                 nullable: false,
-                defaultValue: false);
+                oldClrType: typeof(int),
+                oldType: "int");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+            migrationBuilder.AlterColumn<int>(
                 name: "IsActive",
-                table: "Employees");
+                table: "Tasks",
+                type: "int",
+                nullable: false,
+                oldClrType: typeof(bool),
+                oldType: "bit");
         }
     }
 }

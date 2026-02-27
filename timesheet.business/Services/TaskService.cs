@@ -17,13 +17,13 @@ namespace timesheet.business.Services
         }
         public async Task<IEnumerable<TaskDto>> GetAllTask()
         {
-            var result = await _taskRepo.GetAllAsync();
+            var result = await _taskRepo.FindAsync(t=>t.IsActive);
             return result.Select(s => new TaskDto { Description = s.Description, Name = s.Name, Id = s.Id });
         }
 
         public async Task<IEnumerable<TaskDto>> GetFilteredTask(string searchTerm)
         {
-            var result = await _taskRepo.FindAsync(x=>x.Name.Contains(searchTerm) || x.Description.Contains(searchTerm));
+            var result = await _taskRepo.FindAsync(x=>x.IsActive &&( x.Name.Contains(searchTerm) || x.Description.Contains(searchTerm)));
             return result.Select(s => new TaskDto { Description = s.Description, Name = s.Name, Id = s.Id });
         }
     }

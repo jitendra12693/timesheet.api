@@ -43,7 +43,7 @@ namespace timesheet.business.Services
 
         public async Task<IEnumerable<EmployeeDto>> GetAllEmployee()
         {
-            var result = await _empRepo.GetAllAsync();
+            var result = await _empRepo.FindAsync(t => t.IsActive);
             return result.Select(s => new EmployeeDto { Code = s.Code, Name = s.Name, Id = s.Id });
         }
 

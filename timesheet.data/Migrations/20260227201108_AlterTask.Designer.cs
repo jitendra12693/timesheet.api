@@ -12,7 +12,7 @@ using timesheet.data;
 namespace timesheet.data.Migrations
 {
     [DbContext(typeof(TimesheetDb))]
-    [Migration("20260226103902_AlterTask")]
+    [Migration("20260227201108_AlterTask")]
     partial class AlterTask
     {
         /// <inheritdoc />
@@ -38,6 +38,9 @@ namespace timesheet.data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -62,7 +65,7 @@ namespace timesheet.data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
