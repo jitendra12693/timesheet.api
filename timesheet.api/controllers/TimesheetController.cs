@@ -35,7 +35,7 @@ namespace timesheet.api.controllers
             var result = await timesheetService.GetTimesheetById(id);
             if (result is null)
                 return NotFound();
-            return Ok();
+            return Ok(result);
         }
 
         [HttpGet("getAllTimesheet")]

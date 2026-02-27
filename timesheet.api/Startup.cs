@@ -69,21 +69,20 @@ namespace timesheet.api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMiddleware<GlobalExceptionHandler>();
+            
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<GlobalExceptionHandler>();
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
-
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseEndpoints(endpoints =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
                 endpoints.MapControllers();
             });
         }
