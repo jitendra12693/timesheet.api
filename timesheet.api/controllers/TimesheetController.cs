@@ -18,6 +18,8 @@ namespace timesheet.api.controllers
         {
             try
             {
+                if(!ModelState.IsValid)
+                    return BadRequest(ModelState);
                 var result = await timesheetService.AddTimesheetAsync(timesheet);
                 return CreatedAtAction(nameof(getTimesheetById), new { id = result.Id }, result);
             }
